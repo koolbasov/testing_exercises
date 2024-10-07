@@ -2,36 +2,17 @@ import pytest
 from functions.level_2.one_pr_url import is_github_pull_request_url
 
 
-def test__is_github_pull_request_url__correct_url_pr():
-    url = "https://github.com/learnpythonru/testing_exercises/pull/40"
-
-    pull_request_url = is_github_pull_request_url(url)
-
-    assert pull_request_url is True
-
-
-def test__is_github_pull_request_url__correct_url_not_pr():
-    url = "https://github.com/learnpythonru/testing_exercises"
-
-    pull_request_url = is_github_pull_request_url(url)
-
-    assert pull_request_url is False
-
-
-def test__is_github_pull_request_url__incorrect_url():
-    url = "https://gitpub.com/learnpythonru/testing_exercises"
-
-    pull_request_url = is_github_pull_request_url(url)
-
-    assert pull_request_url is False
-
-
-def test__is_github_pull_request_url__not_url():
-    url = "testing_exercises"
-
-    pull_request_url = is_github_pull_request_url(url)
-
-    assert pull_request_url is False
+@pytest.mark.parametrize(
+    "url, expected_result",
+    [
+        ("https://github.com/learnpythonru/testing_exercises/pull/40", True),
+        ("https://github.com/learnpythonru/testing_exercises", False),
+        ("https://gitpub.com/learnpythonru/testing_exercises", False),
+        ("testing_exercises", False),
+    ],
+)
+def test__is_github_pull_request_url(url, expected_result):
+    assert is_github_pull_request_url(url) is expected_result
 
 
 def test__is_github_pull_request_url__not_string():
